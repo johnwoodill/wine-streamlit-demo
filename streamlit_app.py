@@ -13,11 +13,11 @@ def load_data():
 def main():
 
     logo = './img/cropped-hires_vineyard_nutrition_logo_color-270x270.png'
-    st.sidebar.image(logo, width=200)
+    st.image(logo, width=200)
 
-    st.sidebar.title('SCRI Yield/Quality Model')
+    st.title('SCRI Yield/Quality Model')
 
-    st.sidebar.markdown(
+    st.markdown(
         """
         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor 
         \n 
@@ -25,17 +25,17 @@ def main():
         """
     )
 
-    st.sidebar.markdown(
+    st.markdown(
         """
         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor 
         """
     )
 
-    st.sidebar.text("")
+    st.text("")
 
     # body ===============================================================
 
-    model_type = st.sidebar.radio('Model', ('Yield', 'Quality'), index=0)
+    model_type = st.radio('Model', ('Yield', 'Quality'), index=0)
     
     if model_type == "Yield":
         model_coeff = np.array([26.86, 22.89, 13.90])
@@ -43,19 +43,19 @@ def main():
     if model_type == "Quality":
         carb_seq = []       
 
-    st.sidebar.header(f"Nutrient Metrics")
-    nitrogen = st.sidebar.text_input("Nitrogen (units)", "0.5")
-    phosphorus = st.sidebar.text_input("Phosphorus (units)", "0.5")
-    potassium = st.sidebar.text_input("Potassium (units)", "0.5")
+    st.header(f"Nutrient Metrics")
+    nitrogen = st.text_input("Nitrogen (units)", "0.5")
+    phosphorus = st.text_input("Phosphorus (units)", "0.5")
+    potassium = st.text_input("Potassium (units)", "0.5")
     
  
-    button_click = st.sidebar.button('Run Model')
+    button_click = st.button('Run Model')
 
     if button_click:
         nutrient_inputs = np.array([float(nitrogen), float(phosphorus), float(potassium)])
         prediction = np.sum(model_coeff * nutrient_inputs)
 
-        st.sidebar.text(f"Predicted Yield: {prediction}")
+        st.text(f"Predicted Yield: {prediction}")
     
 
 

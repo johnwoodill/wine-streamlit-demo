@@ -47,8 +47,8 @@ def get_nearest_grid(prism_dat: pd.DataFrame, lon_lat: tuple):
     lat = lon_lat[1]
 
     # Filter to reduce apply function search
-    indat = prism_dat[(prism_dat['lon'] >= (lon - 2)) & (prism_dat['lon'] <= (lon + 2))]
-    indat = indat[(indat['lat'] >= (lat - 2)) & (indat['lat'] <= (lat + 2))]
+    indat = prism_dat[(prism_dat['lon'] >= (lon - .5)) & (prism_dat['lon'] <= (lon + .5))]
+    indat = indat[(indat['lat'] >= (lat - .5)) & (indat['lat'] <= (lat + .5))]
 
     # Get distances for each grid
     indat['dist'] = indat.apply(lambda x: haversine(x['lon'], x['lat'], lon, lat), axis=1)

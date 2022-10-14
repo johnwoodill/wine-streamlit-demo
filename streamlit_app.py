@@ -5,8 +5,11 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import altair as alt
 
-st.set_page_config(layout="wide")
+from libs.libs import *
 
+from gkey import *
+
+st.set_page_config(layout="wide")
 
 
 def plot_ts(DF, tooltip = False, rangeSelector = False, width = 600, height = 400):
@@ -59,11 +62,13 @@ def plot_ts(DF, tooltip = False, rangeSelector = False, width = 600, height = 40
   return(res)
 
 
+# !!!! UNCOMMENT WHEN PRISM IS AVAILABLE
+# Load prism data into memory for faster processing
 
 @st.cache(allow_output_mutation=True)
-def load_data():
-    growmark_locs = pd.read_csv("")
-    return growmark_locs
+def load_prism():
+    prism = pd.read_csv("data/prism_dat.csv")
+    return prism
 
 
 
@@ -95,6 +100,34 @@ def main():
                 3- Say what the sidebar is and that one can access the other tabs by choosing the right buttton. This will be self-evident from the app I think, but it never hurts to make it explicit.
             """
         )
+
+        st.markdown(
+            """
+            We gather environmental data based on the zip code of the vineyard. Please enter the zip code
+            to get the closests environmental data to your location. (Note: this information is only used for query Google Maps)
+            """
+        )
+        
+        # Load prism data for search
+        prism_dat = load_prism()
+
+        st.header(f"Vineyard Zipcode:")
+        zip_code = st.text_input("Zipcode", "97365")
+        zip_code_click = st.button('Get Environmental Data')
+
+        if zip_code_click:
+            lon_lat = gmap_geocode_coords(str(zip_code), G_API_KEY)
+            if lon_lat is None:
+                lon_lat = "Bad zip code"
+            st.write(f"Longitude/Latitude: {lon_lat}")
+            st.write(f"Longitude/Latitude: {lon_lat}")
+
+            # Get environmental data
+            gridNumber = get_nearest_grid(prism_dat, lon_lat=lon_lat)
+            env_data = prism_dat[prism_dat['gridNumber'] == gridNumber]
+            st.write(env_data)
+
+
         # page ===============================================================
         # page ===============================================================
         # page ===============================================================

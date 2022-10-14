@@ -120,8 +120,7 @@ def main():
             if lon_lat is None:
                 lon_lat = "Bad zip code"
             st.write(f"Longitude/Latitude: {lon_lat}")
-            st.write(f"Longitude/Latitude: {lon_lat}")
-
+            
             # Get environmental data
             gridNumber = get_nearest_grid(prism_dat, lon_lat=lon_lat)
             env_data = prism_dat[prism_dat['gridNumber'] == gridNumber]

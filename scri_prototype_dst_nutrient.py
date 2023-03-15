@@ -3,8 +3,6 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
-import altair as alt
-# import plotly.figure_factory as ff
 
 from libs.libs import *
 from RFNutrModel import *

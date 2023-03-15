@@ -76,35 +76,38 @@ with st.sidebar:
     logo = './img/cropped-hires_vineyard_nutrition_logo_color-270x270.png'
     st.image(logo, width=300)
     st.write("Please choose among the options below to access different tabs of this app.")
-    page_type = st.radio('Page', ('Home', 'Yield', 'Quality', 'Plots and analysis'), index=1)
+    # page_type = st.radio('Page', ('Home', 'Yield', 'Quality', 'Plots and analysis'), index=1)
+    page_type = st.radio('Page', ('Home', 'Yield', 'Plots and analysis'), index=0)
 
         
 
 def main():
     
     if page_type == "Home":
-        st.title('Welcome to the Yield/Quality app')
+        st.title('Welcome to the Yield Decision Support Tool')
 
-        st.markdown(
-            """
-            This app is part of the work of the HiRes Vineyard nutrition project, 
-            \n 
-            Please navigate this app by choosing the tab of interest on the sidebar of the screen 
-            \n
-            John, we´re obviously miles away from the perfect text here hehehee. But I guess the idea is 3 parragraphs:
-                \n 
-                1- Cordial welcome to the app and say what institutions and projects are behind it 
-                \n 
-                2- Very brief explanation of what this does: bascially take data from Oregon and make it useful to winemakers and people interested in wine in the PNW. 
-                \n 
-                3- Say what the sidebar is and that one can access the other tabs by choosing the right buttton. This will be self-evident from the app I think, but it never hurts to make it explicit.
-            """
-        )
+        # st.markdown(
+        #     """
+        #     This app is part of the work of the HiRes Vineyard nutrition project, 
+        #     \n 
+        #     Please navigate this app by choosing the tab of interest on the sidebar of the screen 
+        #     \n
+        #     John, we´re obviously miles away from the perfect text here hehehee. But I guess the idea is 3 parragraphs:
+        #         \n 
+        #         1- Cordial welcome to the app and say what institutions and projects are behind it 
+        #         \n 
+        #         2- Very brief explanation of what this does: bascially take data from Oregon and make it useful to winemakers and people interested in wine in the PNW. 
+        #         \n 
+        #         3- Say what the sidebar is and that one can access the other tabs by choosing the right buttton. This will be self-evident from the app I think, but it never hurts to make it explicit.
+        #     """
+        # )
 
         st.markdown(
             """
             We gather environmental data based on the zip code of the vineyard. Please enter the zip code
-            to get the closests environmental data to your location. (Note: this information is only used for query Google Maps)
+            to get the closests environmental data to your location. 
+            \n
+            (Note: this information is only used for query Google Maps)
             """
         )
         
@@ -152,9 +155,8 @@ def main():
 
         st.markdown(
             """
-            Below, you may input the values of different nutrients found in the leaves of a Pinot Noir winegrape in Oregon and you will see a predicted yield level in kilograms by meter. 
-            \n 
-            Again, we gotta write this better. But I think this is the structure: ery brief and self-exlanatory
+            Below, you may input the values of different nutrients found in the leaves of a Pinot Noir winegrape in Oregon \n 
+            and you will see a predicted yield level in kilograms by meter. 
             """
         )
         # body ===============================================================
@@ -163,14 +165,21 @@ def main():
 
         st.header(f"Nutrient Metrics")
         nitrogen = st.text_input("Leaf Nitrogen (%)", "2.211")
-        phosphorus = st.text_input("Phosphorus (%)", "0.182")
+        # phosphorus = st.text_input("Phosphorus (%)", "0.182")
+        phosphorus = 0.182
         potassium = st.text_input("Potassium (%)", "1.036")
-        magnesium = st.text_input("Magnesium (%)", "0.329")
-        boron = st.text_input("Boron (%)", "30.730")
-        YAN = st.text_input("YAN", "150.718")
-        TSS = st.text_input("TSS", "23.335")
-        pH = st.text_input("pH", "3.362")
-        TA = st.text_input("TA", "6.563")
+        # magnesium = st.text_input("Magnesium (%)", "0.329")
+        magnesium = 0.329
+        # boron = st.text_input("Boron (%)", "30.730")
+        boron = 30.730
+        # YAN = st.text_input("YAN", "150.718")
+        YAN = 150.718
+        # TSS = st.text_input("TSS", "23.335")
+        TSS = 23.335
+        # pH = st.text_input("pH", "3.362")
+        pH = 3.362
+        # TA = st.text_input("TA", "6.563")
+        TA = 6.563
         
         raings= 0.0441*6.418
         tempgs=0.3437*16.445
@@ -186,19 +195,19 @@ def main():
         if button_click:
             nutrient_inputs = np.array([float(nitrogen), float(phosphorus), float(potassium), float(magnesium), float(boron), float(YAN), float(TSS), float(pH), float(TA)])
             
-            st.session_state
+            # st.session_state
             
             ## Please remember to erase the number 2, I'm just doi
                       
             
             prediction = np.sum(model_coeff * nutrient_inputs)+raings+tempgs+rainsepoct+tempsepoct-6.9526 + 2
             
-            if 'prediction_yield' not in st.session_state:
-                st.session_state['prediction_yield'] = prediction
+            # if 'prediction_yield' not in st.session_state:
+            st.session_state['prediction_yield'] = prediction
             
-            st.write(st.session_state)
+            # st.write(st.session_state)
 
-            st.text(f"Predicted Yield: {prediction} per kg/m")
+            st.text(f"Predicted Yield: {np.round(prediction,2)} per kg/m")
             
 
             
@@ -251,7 +260,7 @@ def main():
             nutrient_inputs = np.array([float(nitrogen), float(phosphorus), float(potassium), float(magnesium), float(boron)])
             prediction = np.sum(model_coeff * nutrient_inputs)
 
-            st.text(f"Predicted Yield: {prediction} per kg/m")
+            st.text(f"Predicted Quality: {prediction} (Wine Spectator Rating)")
         # page ===============================================================
         # page ===============================================================
         # page ===============================================================
@@ -275,11 +284,11 @@ def main():
         st.title('Plots and analysis')
 
 
-        st.markdown(
-            """
-            This page displays plots that you can manipulate. To add the predicted yield value in the plots, please insert the nutrient values in the  "Yield" page.
-            """
-        )
+        # st.markdown(
+        #     """
+        #     This page displays plots that you can manipulate. To add the predicted yield value in the plots, please insert the nutrient values in the  "Yield" page.
+        #     """
+        # )
         # body ===============================================================
         
         rain_temp = pd.read_csv("./rain_temp.csv")
@@ -314,7 +323,7 @@ def main():
         y_axis = st.sidebar.selectbox("Y-Axis", measurements, index=1)
 
         if x_axis and y_axis:
-            scatter_fig = plt.figure(figsize=(6,4))
+            scatter_fig = plt.figure(figsize=(4,2))
 
             scatter_ax = scatter_fig.add_subplot(111)
         
@@ -334,12 +343,12 @@ def main():
         bins = st.sidebar.radio(label="Bins :", options=[10,20,30,40,50], index=4)
 
         if hist_axis:
-            hist_fig = plt.figure(figsize=(6,4))
+            hist_fig = plt.figure(figsize=(4,2))
             hist_ax = hist_fig.add_subplot(111)
             sub_breast_cancer_df = df3[hist_axis]
             sub_breast_cancer_df.plot.hist(bins=bins, alpha=0.7, ax=hist_ax, title="Distribution of Measurements");
         else:
-            hist_fig = plt.figure(figsize=(6,4))
+            hist_fig = plt.figure(figsize=(4,2))
             hist_ax = hist_fig.add_subplot(111)
             sub_breast_cancer_df = df3[["mean radius", "mean texture"]]
             sub_breast_cancer_df.plot.hist(bins=bins, alpha=0.7, ax=hist_ax, title="Distribution of Measurements");
@@ -356,14 +365,11 @@ def main():
                 
         fechas = pd.DatetimeIndex(rain_temp.Date)
         ts = pd.Series(rain_temp.rains.values, index = fechas)
-        ts_rain = ts.to_frame(name = "Rain").reset_index()
+        ts_rain = ts.to_frame(name = "Precip").reset_index()
         ts_plotrain = plot_ts(ts_rain, True, True)
+
         #rain=st.altair_chart(ts_plotrain, use_container_width=True) 
         
-      
-        
-        
-
         ts2 = pd.Series(rain_temp.temps.values, index = fechas)
         ts_df = ts2.to_frame(name = "Temperature").reset_index()
         ts_plot = plot_ts(ts_df, True, True)

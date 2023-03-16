@@ -405,6 +405,7 @@ def main():
 
             if clear_previous_results:
                 st.session_state.df = pd.DataFrame()
+                st.session_state.df = pd.DataFrame()
 
             if model_click:
                 gen_pred = proc_model(hide_main=True)

@@ -277,7 +277,7 @@ def main():
             environmental data, and nutrient uptake values. The data used were 
             Patty Skinkis's State Wide Crop Load data for the Willamette Valley
             in Oregon from 2013-2021. The model was able to capture 52% of
-            variation in the data (R-squared = 52%) using a Leave-One-Out
+            variation in the data (R-squared = 58%) using a Leave-One-Out
             Cross-validation technique.
             \n
             \n Note: these results are strictly for Pinot Noir in the Willamette Valley

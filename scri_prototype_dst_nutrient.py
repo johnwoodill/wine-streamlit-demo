@@ -269,11 +269,17 @@ def main():
 
         st.markdown(
             """
-            This decision support tool provides predicted yield (kg/m) using vineyard management decisions, 
-            environmental data, and nutrient uptake values. 
+            This decision support tool uses a Yield-Nutrient model to predict 
+            end-of-season yield (kg/m). The Yield-Nutrient model was developed 
+            using a Random Forest Regressor with vineyard management decisions, 
+            environmental data, and nutrient uptake values. The data used were 
+            Patty Skinkis's State Wide Crop Load data for the Willamette Valley
+            in Oregon from 2013-2021. The model was able to capture 52% of
+            variation in the data (R-squared = 52%) using a Leave-One-Out
+            Cross-validation technique.
             \n
             \n Note: these results are strictly for Pinot Noir in the Willamette Valley
-            \n
+                    
 
         ------------------------------------------------------------------------------
             Instructions: 
@@ -412,8 +418,10 @@ def main():
             pdat['prev_N'] = pdat['prev_N'].astype(float)
             pdat['label'] = pdat['treatment'].astype(str) + "-" + pdat['rootstock'].astype(str)
 
-            fig, ax = plt.subplots()
+            fig, ax = plt.subplots(figsize=(5, 4))
+            # fig.set_size_inches(5, 4, forward=True)
             sns.scatterplot(x='LeafN', y='pred_yield', hue='label', data=pdat)
+
             ax.set_xlim(0,5)
             ax.set_xticks(np.arange(0, 5.5, 0.5))
             ax.legend(title='', loc='best')
@@ -422,10 +430,14 @@ def main():
             plt.xlabel('Nitrogen (%)')
             plt.ylabel('Predicted Yield (kg/m)')
             plt.title("Nitrogen and Predicted Yield \n by Thinning and Rootstock")
-            st.pyplot(fig)
+            # st.pyplot(fig)
+            from PIL import Image
+            fig.savefig("fig1.png")
+            image = Image.open('fig1.png')
+            st.image(image)
 
 
-            fig, ax = plt.subplots()
+            fig, ax = plt.subplots(figsize=(5, 4))
             sns.scatterplot(x='LeafK', y='pred_yield', hue='label', data=pdat)
             ax.set_xlim(0,5)
             ax.set_xticks(np.arange(0, 5.5, 0.5))
@@ -435,10 +447,12 @@ def main():
             plt.xlabel('Potassium (%)')
             plt.ylabel('Predicted Yield (kg/m)')
             plt.title("Potassium and Predicted Yield \n by Thinning and Rootstock")
-            st.pyplot(fig)
+            # st.pyplot(fig)
+            fig.savefig("fig2.png")
+            image = Image.open('fig2.png')
+            st.image(image)
 
-
-            fig, ax = plt.subplots()
+            fig, ax = plt.subplots(figsize=(5, 4))
             sns.scatterplot(x='prev_PW', y='pred_yield', hue='label', data=pdat)
             ax.set_xlim(0,5)
             ax.set_xticks(np.arange(0, 5.5, 0.5))
@@ -448,10 +462,12 @@ def main():
             plt.xlabel("Previous Year's Pruning Weights")
             plt.ylabel('Predicted Yield (kg/m)')
             plt.title("Previous Pruning Weights and Predicted Yield \n by Thinning and Rootstock")
-            st.pyplot(fig)
+            # st.pyplot(fig)
+            fig.savefig("fig3.png")
+            image = Image.open('fig3.png')
+            st.image(image)
 
-
-            fig, ax = plt.subplots()
+            fig, ax = plt.subplots(figsize=(5, 4))
             sns.scatterplot(x='prev_N', y='pred_yield', hue='label', data=pdat)
             ax.set_xlim(0,5)
             ax.set_xticks(np.arange(0, 5.5, 0.5))
@@ -461,7 +477,10 @@ def main():
             plt.xlabel("Previous Year's Nitrogen")
             plt.ylabel('Predicted Yield (kg/m)')
             plt.title("Previous Nitrogen and Predicted Yield \n by Thinning and Rootstock")
-            st.pyplot(fig)
+            # st.pyplot(fig)
+            fig.savefig("fig4.png")
+            image = Image.open('fig4.png')
+            st.image(image)
 
         else:
             st.write("No previous results to display")

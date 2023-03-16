@@ -11,6 +11,8 @@ from RFNutrModel import *
 
 st.set_page_config(layout="wide")
 
+G_API_KEY = st.secrets["G_API_KEY"]
+
 def get_rootstock(rootstock):
     root_101_14=0
     root_3309=0

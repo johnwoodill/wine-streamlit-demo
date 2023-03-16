@@ -199,7 +199,7 @@ def load_prism():
 
 st.sidebar.image('./img/cropped-hires_vineyard_nutrition_logo_color-270x270.png', width=300)
 
-page_type = st.sidebar.radio('', ('Main', 'Previous Results'), index=0)
+page_type = st.sidebar.radio('', ('Main', 'Previous Results/Figures'), index=0)
 
 st.sidebar.title("Vineyard Information")
 
@@ -295,6 +295,9 @@ def main():
                    current year (expected) nitrogen, potassium, phosphorus
                 
                 5. Click "Generated Model Prediction"
+
+                6. Each prediction is saved with the inputs and displayed on 
+                   "Previous Results/Figures" page
 
             Note: each time you make a change on the left panel, click "Generate Model Prediction"
 

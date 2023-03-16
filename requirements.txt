@@ -1,7 +1,8 @@
-pandas==1.3.5
-numpy==1.21.5
-seaborn==0.11.2
-matplotlib==3.5.0
-streamlit==1.5.0
-scikit-learn==0.24.2
-urllib3==1.26.7
+pandas
+numpy
+seaborn
+matplotlib
+streamlit
+scikit-learn
+urllib3
+requests

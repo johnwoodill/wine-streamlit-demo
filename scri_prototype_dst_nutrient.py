@@ -201,6 +201,8 @@ st.sidebar.image('./img/cropped-hires_vineyard_nutrition_logo_color-270x270.png'
 
 page_type = st.sidebar.radio('', ('Main', 'Previous Results/Figures'), index=0)
 
+clear_previous_results = st.sidebar.button("Clear Previous Model Results")
+
 st.sidebar.title("Vineyard Information")
 
 variety = st.sidebar.selectbox("Wine-grape Variety",
@@ -298,6 +300,8 @@ def main():
 
                 6. Each prediction is saved with the inputs and displayed on 
                    "Previous Results/Figures" page
+
+                7. To clear all previous data, click "Clear Previous Model Results"
 
             Note: each time you make a change on the left panel, click "Generate Model Prediction"
 
@@ -404,7 +408,6 @@ def main():
         
             st.title(f"Previous Model Results")
             st.write(st.session_state.df)
-            clear_previous_results = st.button("Clear Previous Model Results")
 
             pdat = st.session_state.df
             pdat['pred_yield'] = pdat['pred_yield'].astype(float)

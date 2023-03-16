@@ -405,7 +405,7 @@ def main():
 
             if clear_previous_results:
                 st.session_state.df = pd.DataFrame()
-                page_type == "Main"
+                page_type = "Main"
 
             if model_click:
                 gen_pred = proc_model(hide_main=True)

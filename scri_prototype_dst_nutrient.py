@@ -326,7 +326,11 @@ def main():
         #     env_data = env_data[env_data['date'] >= '2013-01-01'].sort_values('date').reset_index(drop=True)
         #     st.write(env_data)
 
+        if clear_previous_results:
+            st.session_state.df = pd.DataFrame()
+
         if model_click:
+
             gen_pred = proc_model()
             # Load prism data for search
             # prism_dat = load_prism()

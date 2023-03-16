@@ -403,14 +403,6 @@ def main():
             st.write(st.session_state.df)
             clear_previous_results = st.button("Clear Previous Model Results")
 
-            if clear_previous_results:
-                st.session_state.df = pd.DataFrame()
-                page_type = "Main"
-
-            if model_click:
-                gen_pred = proc_model(hide_main=True)
-                
-
             pdat = st.session_state.df
             pdat['pred_yield'] = pdat['pred_yield'].astype(float)
             pdat['LeafN'] = pdat['LeafN'].astype(float)
@@ -418,6 +410,13 @@ def main():
             pdat['prev_PW'] = pdat['prev_PW'].astype(float)
             pdat['prev_N'] = pdat['prev_N'].astype(float)
             pdat['label'] = pdat['treatment'].astype(str) + "-" + pdat['rootstock'].astype(str)
+
+            if clear_previous_results:
+                st.session_state.df = pd.DataFrame()
+
+            if model_click:
+                gen_pred = proc_model(hide_main=True)
+                
 
             fig, ax = plt.subplots(figsize=(5, 4))
             # fig.set_size_inches(5, 4, forward=True)

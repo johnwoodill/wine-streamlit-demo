@@ -399,7 +399,7 @@ def main():
 
         
 
-    if page_type == "Previous Results":
+    if page_type == "Previous Results/Figures":
         if len(st.session_state.df) > 0:
         
             st.title(f"Previous Model Results")

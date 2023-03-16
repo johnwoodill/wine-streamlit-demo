@@ -41,31 +41,6 @@ def leave_one_out_cv(model, X, y):
 
 
 
-def random_forest_regression(n_estimators=100, max_depth=None):
-    """
-    Generates a random forest regression using scikit-learn.
-    
-    Parameters:
-        n_estimators (int): the number of trees in the forest (default: 100)
-        max_depth (int): the maximum depth of each tree in the forest (default: None)
-        
-    Returns:
-        RandomForestRegressor: the random forest regression model
-    """
-    
-    # Generate a random dataset
-    X, y = make_regression(n_samples=1000, n_features=10, random_state=42)
-    
-    # Create the random forest regression model
-    rf = RandomForestRegressor(n_estimators=n_estimators, max_depth=max_depth, random_state=42)
-    
-    # Train the model on the data
-    rf.fit(X, y)
-    
-    return rf
-
-
-
 def get_features_labels(dat, cols):
     moddat = dat[cols]
 
@@ -105,7 +80,8 @@ def gen_prediction(LeafN, LeafP, LeafK, Y_Tavg, Y_Pr, lag1_LeafN,
        lag1_PWMRow, root_101_14, root_3309, root_44_53, root_OWNR,
        root_RIPG, root_SHWM, treat_1cls, treat_2cls, treat_NoThin):
 
-    rfm = RandomForestRegressor(n_estimators=10, max_depth=4, random_state=42)
+    # rfm = RandomForestRegressor(n_estimators=10, max_depth=4, random_state=42)
+    rfm = RandomForestRegressor(n_estimators=20, max_depth=8, random_state=42)
 
     cols = ['Vineyard', 'Treatment', 'Yield', 'Year', 'LeafN', 'LeafP', 'LeafK', 
             'Y_Tavg', 'Y_Pr', 'PWMRow', 'Rootstock']
@@ -129,14 +105,15 @@ def gen_prediction(LeafN, LeafP, LeafK, Y_Tavg, Y_Pr, lag1_LeafN,
 
 
 def get_r2():
-    rfm = RandomForestRegressor(n_estimators=10, max_depth=4, random_state=42)
-
+    rfm = RandomForestRegressor(n_estimators=20, max_depth=8, random_state=42)
+    # rfm = RandomForestRegressor(n_estimators=10, max_depth=4, random_state=42)
+    
     cols = ['Vineyard', 'Treatment', 'Yield', 'Year', 'LeafN', 'LeafP', 'LeafK', 
         'Y_Tavg', 'Y_Pr', 'PWMRow', 'Rootstock']
 
     X, y = get_features_labels(dat, cols)
 
-    print("Cross-validating using LOO")
+    print("Cross-validating using Leave-One-Out Cross-validation")
     loo_pred = leave_one_out_cv(rfm, X, y)
 
     return r2_score(y, loo_pred)
@@ -184,8 +161,7 @@ dat = pd.read_csv("data/Louis_All_variables_ML_ready_V3.csv")
 
 
 # gen_prediction( 
-#     Year=2019, 
-#     LeafN=2.2, 
+#     LeafN=5, 
 #     LeafP=0.3, 
 #     LeafK=0.6, 
 #     Y_Tavg=18, 

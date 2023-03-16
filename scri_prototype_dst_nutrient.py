@@ -413,7 +413,7 @@ def main():
             pdat['label'] = pdat['treatment'].astype(str) + "-" + pdat['rootstock'].astype(str)
 
             fig, ax = plt.subplots()
-            sns.scatterplot(x=LeafN, y=pred_yield, hue=label, data=pdat)
+            sns.scatterplot(x='LeafN', y='pred_yield', hue='label', data=pdat)
             ax.set_xlim(0,5)
             ax.set_xticks(np.arange(0, 5.5, 0.5))
             ax.legend(title='', loc='best')
@@ -426,7 +426,7 @@ def main():
 
 
             fig, ax = plt.subplots()
-            sns.scatterplot(x=LeafK, y=pred_yield, hue=label, data=pdat)
+            sns.scatterplot(x='LeafK', y='pred_yield', hue='label', data=pdat)
             ax.set_xlim(0,5)
             ax.set_xticks(np.arange(0, 5.5, 0.5))
             ax.legend(title='', loc='best')
@@ -439,7 +439,7 @@ def main():
 
 
             fig, ax = plt.subplots()
-            sns.scatterplot(x=prev_PW, y=pred_yield, hue=label, data=pdat)
+            sns.scatterplot(x='prev_PW', y='pred_yield', hue='label', data=pdat)
             ax.set_xlim(0,5)
             ax.set_xticks(np.arange(0, 5.5, 0.5))
             ax.legend(title='', loc='best')
@@ -452,7 +452,7 @@ def main():
 
 
             fig, ax = plt.subplots()
-            sns.scatterplot(x=prev_N, y=pred_yield, hue=label, data=pdat)
+            sns.scatterplot(x='prev_N', y='pred_yield', hue='label', data=pdat)
             ax.set_xlim(0,5)
             ax.set_xticks(np.arange(0, 5.5, 0.5))
             ax.legend(title='', loc='best')

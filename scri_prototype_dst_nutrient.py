@@ -7,11 +7,11 @@ import seaborn as sns
 from libs.libs import *
 from RFNutrModel import *
 
-# from gkey import *
+from gkey import *
 
 st.set_page_config(layout="wide")
 
-G_API_KEY = st.secrets["G_API_KEY"]
+# G_API_KEY = st.secrets["G_API_KEY"]
 
 def get_rootstock(rootstock):
     root_101_14=0
@@ -199,9 +199,9 @@ def load_prism():
 
 st.sidebar.image('./img/cropped-hires_vineyard_nutrition_logo_color-270x270.png', width=300)
 
-page_type = st.sidebar.radio('', ('Main', 'Previous Results/Figures'), index=0)
+# page_type = st.sidebar.radio('', ('Main', 'Previous Results/Figures'), index=0)
 
-clear_previous_results = st.sidebar.button("Clear Previous Model Results")
+# clear_previous_results = st.sidebar.button("Clear Previous Model Results")
 
 st.sidebar.title("Vineyard Information")
 
@@ -237,7 +237,7 @@ LeafK = float(LeafK)
 LeafP = st.sidebar.text_input("Expected Leaf Phosphorus (%)", 0.20)
 LeafP = float(LeafP)
 
-model_click = st.sidebar.button("Generate Model Prediction")
+model_click = st.sidebar.button("Predict Yield")
 
 prev_results = pd.DataFrame()
 
@@ -248,252 +248,246 @@ if 'df' not in st.session_state:
 
 def main():
 
-    if page_type == "Main":
+    # if page_type == "Main":
 
 
-        st.title('Grape-Wine Nutrient Decision Support Tool')
+    st.title('Wine-grape Nutrient Decision Support Tool')
 
-        # st.markdown(
-        #     """
-        #     This app is part of the work of the HiRes Vineyard nutrition project, 
-        #     \n 
-        #     Please navigate this app by choosing the tab of interest on the sidebar of the screen 
-        #     \n
-        #     John, we´re obviously miles away from the perfect text here hehehee. But I guess the idea is 3 parragraphs:
-        #         \n 
-        #         1- Cordial welcome to the app and say what institutions and projects are behind it 
-        #         \n 
-        #         2- Very brief explanation of what this does: bascially take data from Oregon and make it useful to winemakers and people interested in wine in the PNW. 
-        #         \n 
-        #         3- Say what the sidebar is and that one can access the other tabs by choosing the right buttton. This will be self-evident from the app I think, but it never hurts to make it explicit.
-        #     """
-        # )
+    # st.markdown(
+    #     """
+    #     This app is part of the work of the HiRes Vineyard nutrition project, 
+    #     \n 
+    #     Please navigate this app by choosing the tab of interest on the sidebar of the screen 
+    #     \n
+    #     John, we´re obviously miles away from the perfect text here hehehee. But I guess the idea is 3 parragraphs:
+    #         \n 
+    #         1- Cordial welcome to the app and say what institutions and projects are behind it 
+    #         \n 
+    #         2- Very brief explanation of what this does: bascially take data from Oregon and make it useful to winemakers and people interested in wine in the PNW. 
+    #         \n 
+    #         3- Say what the sidebar is and that one can access the other tabs by choosing the right buttton. This will be self-evident from the app I think, but it never hurts to make it explicit.
+    #     """
+    # )
 
-        st.markdown(
-            """
-            This decision support tool uses a Yield-Nutrient model to predict 
-            end-of-season yield (kg/m). The Yield-Nutrient model was developed 
-            using a Random Forest Regressor with vineyard management decisions, 
-            environmental data, and nutrient uptake values. The data used were 
-            Patty Skinkis's State Wide Crop Load data for the Willamette Valley
-            in Oregon from 2013-2021. The model was able to capture 52% of
-            variation in the data (R-squared = 58%) using a Leave-One-Out
-            Cross-validation technique.
-            \n
-            \n Note: these results are strictly for Pinot Noir in the Willamette Valley
-                    
-
-        ------------------------------------------------------------------------------
-            Instructions: 
-                1. Select wine-grape variety (only Pinot-Noir is available)
-                2. Input zip code to download environmental data 
-                   temperature and precipitation
+    st.markdown(
+        """
+        This decision support tool uses a Yield-Nutrient model to predict 
+        end-of-season yield (kg/m). The Yield-Nutrient model was developed 
+        using a Random Forest Regressor with vineyard management decisions, 
+        environmental data, and nutrient uptake values. The data used were 
+        Patty Skinkis's State Wide Crop Load data for the Willamette Valley
+        in Oregon from 2013-2021. The model was able to capture 60% of
+        variation in the data (R-squared = 60%) using a Leave-One-Out
+        Cross-validation technique.
+        \n
+        \n Note: these results are strictly for Pinot Noir in the Willamette Valley
                 
-                3. Select vineyard management decisions for 
-                   rootstock type, thinning practices, and previous year's 
-                   pruning weight (kg/m)
-                
-                4. Input nutrients for previous year's nitrogen, and 
-                   current year (expected) nitrogen, potassium, phosphorus
-                
-                5. Click "Generated Model Prediction"
 
-                6. Each prediction is saved with the inputs and displayed on 
-                   "Previous Results/Figures" page
+    ------------------------------------------------------------------------------
+        Instructions: 
+            1. Select wine-grape variety (only Pinot-Noir is available)
+            2. Input zip code to download environmental data 
+               temperature and precipitation
+            
+            3. Select vineyard management decisions for 
+               rootstock type, thinning practices, and previous year's 
+               pruning weight (kg/m)
+            
+            4. Input nutrients for previous year's nitrogen, and 
+               current year (expected) nitrogen, potassium, and 
+               phosphorus
+            
+            5. Click "Predict Yield"
 
-                7. To clear all previous data, click "Clear Previous Model Results"
+    ------------------------------------------------------------------------------
 
-            Note: each time you make a change on the left panel, click "Generate Model Prediction"
+        """
+    )
+    
+    # st.header(f"Vineyard Zipcode:")
+    # zip_code = st.text_input("Zipcode", "97365")
+    # zip_code_click = st.button('Get Environmental Data')
 
-        ------------------------------------------------------------------------------
-
-            """
-        )
+    # if zip_code_click:
+    #     lon_lat = gmap_geocode_coords(str(zip_code), G_API_KEY)
+    #     if lon_lat is None:
+    #         lon_lat = "Bad zip code"
+    #     st.write(f"Longitude/Latitude: {lon_lat}")
         
-        # st.header(f"Vineyard Zipcode:")
-        # zip_code = st.text_input("Zipcode", "97365")
-        # zip_code_click = st.button('Get Environmental Data')
+    #     # Get environmental data
+    #     gridNumber = get_nearest_grid(prism_dat, lon_lat=lon_lat)
+    #     env_data = prism_dat[prism_dat['gridNumber'] == gridNumber]
+    #     env_data = env_data[env_data['date'] >= '2013-01-01'].sort_values('date').reset_index(drop=True)
+    #     st.write(env_data)
 
-        # if zip_code_click:
-        #     lon_lat = gmap_geocode_coords(str(zip_code), G_API_KEY)
-        #     if lon_lat is None:
-        #         lon_lat = "Bad zip code"
-        #     st.write(f"Longitude/Latitude: {lon_lat}")
-            
-        #     # Get environmental data
-        #     gridNumber = get_nearest_grid(prism_dat, lon_lat=lon_lat)
-        #     env_data = prism_dat[prism_dat['gridNumber'] == gridNumber]
-        #     env_data = env_data[env_data['date'] >= '2013-01-01'].sort_values('date').reset_index(drop=True)
-        #     st.write(env_data)
+    # if clear_previous_results:
+    #     st.session_state.df = pd.DataFrame()
 
-        if clear_previous_results:
-            st.session_state.df = pd.DataFrame()
+    if model_click:
 
-        if model_click:
+        gen_pred = proc_model()
+        # Load prism data for search
+        # prism_dat = load_prism()
 
-            gen_pred = proc_model()
-            # Load prism data for search
-            # prism_dat = load_prism()
+        # st.title("Generating environmental data")
+        # lon_lat = gmap_geocode_coords(str(zip_code), G_API_KEY)
+        # if lon_lat is None:
+        #     lon_lat = "Bad zip code"
+        # st.write(f"Longitude/Latitude: {lon_lat}")
+        
+        # # Get environmental data
+        # gridNumber = get_nearest_grid(prism_dat, lon_lat=lon_lat)
+        # env_data = prism_dat[prism_dat['gridNumber'] == gridNumber]
+        # env_data = env_data[env_data['date'] >= '2013-01-01'].sort_values('date').reset_index(drop=True)
+        # env_data = env_data.drop(columns=['gridNumber', 'lat', 'lon', 'tmin', 'tmax'])
+        # env_data = env_data[['date', 'tmean', 'ppt']]
+        # st.write(env_data)
 
-            # st.title("Generating environmental data")
-            # lon_lat = gmap_geocode_coords(str(zip_code), G_API_KEY)
-            # if lon_lat is None:
-            #     lon_lat = "Bad zip code"
-            # st.write(f"Longitude/Latitude: {lon_lat}")
-            
-            # # Get environmental data
-            # gridNumber = get_nearest_grid(prism_dat, lon_lat=lon_lat)
-            # env_data = prism_dat[prism_dat['gridNumber'] == gridNumber]
-            # env_data = env_data[env_data['date'] >= '2013-01-01'].sort_values('date').reset_index(drop=True)
-            # env_data = env_data.drop(columns=['gridNumber', 'lat', 'lon', 'tmin', 'tmax'])
-            # env_data = env_data[['date', 'tmean', 'ppt']]
-            # st.write(env_data)
+        # Y_Tavg=env_data['tmean'].mean()
+        # Y_Pr=env_data['ppt'].mean()
+        
+        # root_101_14, root_3309, root_44_53, root_OWNR, root_RIPG, root_SHWM = get_rootstock(rootstock)
 
-            # Y_Tavg=env_data['tmean'].mean()
-            # Y_Pr=env_data['ppt'].mean()
-            
-            # root_101_14, root_3309, root_44_53, root_OWNR, root_RIPG, root_SHWM = get_rootstock(rootstock)
+        # treat_1cls, treat_2cls, treat_NoThin = get_treatment(treatment)
 
-            # treat_1cls, treat_2cls, treat_NoThin = get_treatment(treatment)
+        # st.title("Model Inputs")
+        # st.text(f"Average Temp =  {Y_Tavg}")
+        # st.text(f"Average Precip = {Y_Pr}")
 
-            # st.title("Model Inputs")
-            # st.text(f"Average Temp =  {Y_Tavg}")
-            # st.text(f"Average Precip = {Y_Pr}")
+        # st.text(f"Rootstock = {rootstock}")
+        # st.text(f"Treatment = {treatment}")
+        # st.text(f"Prev. Pruning Weight = {lag1_PWMRow}")
+        
+        # st.text(f"Prev. Leaf Nitrogen = {lag1_LeafN}")
+        
+        # st.text(f"Leaf Nitrogen = {LeafN}")
+        # st.text(f"Leaf Potassium = {LeafK}")
+        # st.text(f"Leaf Phosphorus = {LeafP}")
 
-            # st.text(f"Rootstock = {rootstock}")
-            # st.text(f"Treatment = {treatment}")
-            # st.text(f"Prev. Pruning Weight = {lag1_PWMRow}")
-            
-            # st.text(f"Prev. Leaf Nitrogen = {lag1_LeafN}")
-            
-            # st.text(f"Leaf Nitrogen = {LeafN}")
-            # st.text(f"Leaf Potassium = {LeafK}")
-            # st.text(f"Leaf Phosphorus = {LeafP}")
+        # gen_pred = gen_prediction( 
+        #             LeafN,
+        #             LeafP,
+        #             LeafK,
+        #             Y_Tavg,
+        #             Y_Pr,
+        #             lag1_LeafN,
+        #             lag1_PWMRow,
+        #             root_101_14,
+        #             root_3309,
+        #             root_44_53,
+        #             root_OWNR,
+        #             root_RIPG,
+        #             root_SHWM,
+        #             treat_1cls,
+        #             treat_2cls,
+        #             treat_NoThin)
 
-            # gen_pred = gen_prediction( 
-            #             LeafN,
-            #             LeafP,
-            #             LeafK,
-            #             Y_Tavg,
-            #             Y_Pr,
-            #             lag1_LeafN,
-            #             lag1_PWMRow,
-            #             root_101_14,
-            #             root_3309,
-            #             root_44_53,
-            #             root_OWNR,
-            #             root_RIPG,
-            #             root_SHWM,
-            #             treat_1cls,
-            #             treat_2cls,
-            #             treat_NoThin)
+        # curr_results = pd.DataFrame({
+        #     'pred_yield': gen_pred, 
+        #     'rootstock': [rootstock], 
+        #     'treatment': [treatment],
+        #     'prev_PW': [lag1_PWMRow],
+        #     'prev_N': [lag1_LeafN],
+        #     'LeafN': [LeafN],
+        #     'LeafK': [LeafK], 
+        #     'LeafP': [LeafP],
+        #     'tavg': [Y_Tavg], 
+        #     'pr': [Y_Pr]})
 
-            # curr_results = pd.DataFrame({
-            #     'pred_yield': gen_pred, 
-            #     'rootstock': [rootstock], 
-            #     'treatment': [treatment],
-            #     'prev_PW': [lag1_PWMRow],
-            #     'prev_N': [lag1_LeafN],
-            #     'LeafN': [LeafN],
-            #     'LeafK': [LeafK], 
-            #     'LeafP': [LeafP],
-            #     'tavg': [Y_Tavg], 
-            #     'pr': [Y_Pr]})
+        # st.session_state.df = st.session_state.df.append(curr_results)
+        # st.session_state.df = st.session_state.df.drop_duplicates()
 
-            # st.session_state.df = st.session_state.df.append(curr_results)
-            # st.session_state.df = st.session_state.df.drop_duplicates()
-
-            st.title(f"Predicted Yield: {np.round(gen_pred, 2)} kg/m")
+        st.title(f"Predicted Yield: {np.round(gen_pred, 2)} kg/m")
 
         
 
-    if page_type == "Previous Results/Figures":
-        if len(st.session_state.df) > 0:
+    # if page_type == "Previous Results/Figures":
+        # if len(st.session_state.df) > 0:
         
-            st.title(f"Previous Model Results")
-            st.write(st.session_state.df)
+        #     st.title(f"Previous Model Results")
+        #     st.write(st.session_state.df)
 
-            pdat = st.session_state.df
-            pdat['pred_yield'] = pdat['pred_yield'].astype(float)
-            pdat['LeafN'] = pdat['LeafN'].astype(float)
-            pdat['LeafK'] = pdat['LeafK'].astype(float)
-            pdat['prev_PW'] = pdat['prev_PW'].astype(float)
-            pdat['prev_N'] = pdat['prev_N'].astype(float)
-            pdat['label'] = pdat['treatment'].astype(str) + "-" + pdat['rootstock'].astype(str)
+        #     pdat = st.session_state.df
+        #     pdat['pred_yield'] = pdat['pred_yield'].astype(float)
+        #     pdat['LeafN'] = pdat['LeafN'].astype(float)
+        #     pdat['LeafK'] = pdat['LeafK'].astype(float)
+        #     pdat['prev_PW'] = pdat['prev_PW'].astype(float)
+        #     pdat['prev_N'] = pdat['prev_N'].astype(float)
+        #     pdat['label'] = pdat['treatment'].astype(str) + "-" + pdat['rootstock'].astype(str)
 
-            if clear_previous_results:
-                st.session_state.df = pd.DataFrame()
+        #     if clear_previous_results:
+        #         st.session_state.df = pd.DataFrame()
 
-            if model_click:
-                gen_pred = proc_model(hide_main=True)
+        #     if model_click:
+        #         gen_pred = proc_model(hide_main=True)
                 
 
-            fig, ax = plt.subplots(figsize=(5, 4))
-            # fig.set_size_inches(5, 4, forward=True)
-            sns.scatterplot(x='LeafN', y='pred_yield', hue='label', data=pdat)
+        #     fig, ax = plt.subplots(figsize=(5, 4))
+        #     # fig.set_size_inches(5, 4, forward=True)
+        #     sns.scatterplot(x='LeafN', y='pred_yield', hue='label', data=pdat)
 
-            ax.set_xlim(0,5)
-            ax.set_xticks(np.arange(0, 5.5, 0.5))
-            ax.legend(title='', loc='best')
-            ax.set_ylim(0,5)
-            ax.set_yticks(np.arange(0, 5.5, 0.5))
-            plt.xlabel('Nitrogen (%)')
-            plt.ylabel('Predicted Yield (kg/m)')
-            plt.title("Nitrogen and Predicted Yield \n by Thinning and Rootstock")
-            # st.pyplot(fig)
-            from PIL import Image
-            fig.savefig("fig1.png")
-            image = Image.open('fig1.png')
-            st.image(image)
+        #     ax.set_xlim(0,5)
+        #     ax.set_xticks(np.arange(0, 5.5, 0.5))
+        #     ax.legend(title='', loc='best')
+        #     ax.set_ylim(0,5)
+        #     ax.set_yticks(np.arange(0, 5.5, 0.5))
+        #     plt.xlabel('Nitrogen (%)')
+        #     plt.ylabel('Predicted Yield (kg/m)')
+        #     plt.title("Nitrogen and Predicted Yield \n by Thinning and Rootstock")
+        #     # st.pyplot(fig)
+        #     from PIL import Image
+        #     fig.savefig("fig1.png")
+        #     image = Image.open('fig1.png')
+        #     st.image(image)
 
 
-            fig, ax = plt.subplots(figsize=(5, 4))
-            sns.scatterplot(x='LeafK', y='pred_yield', hue='label', data=pdat)
-            ax.set_xlim(0,5)
-            ax.set_xticks(np.arange(0, 5.5, 0.5))
-            ax.legend(title='', loc='best')
-            ax.set_ylim(0,5)
-            ax.set_yticks(np.arange(0, 5.5, 0.5))
-            plt.xlabel('Potassium (%)')
-            plt.ylabel('Predicted Yield (kg/m)')
-            plt.title("Potassium and Predicted Yield \n by Thinning and Rootstock")
-            # st.pyplot(fig)
-            fig.savefig("fig2.png")
-            image = Image.open('fig2.png')
-            st.image(image)
+        #     fig, ax = plt.subplots(figsize=(5, 4))
+        #     sns.scatterplot(x='LeafK', y='pred_yield', hue='label', data=pdat)
+        #     ax.set_xlim(0,5)
+        #     ax.set_xticks(np.arange(0, 5.5, 0.5))
+        #     ax.legend(title='', loc='best')
+        #     ax.set_ylim(0,5)
+        #     ax.set_yticks(np.arange(0, 5.5, 0.5))
+        #     plt.xlabel('Potassium (%)')
+        #     plt.ylabel('Predicted Yield (kg/m)')
+        #     plt.title("Potassium and Predicted Yield \n by Thinning and Rootstock")
+        #     # st.pyplot(fig)
+        #     fig.savefig("fig2.png")
+        #     image = Image.open('fig2.png')
+        #     st.image(image)
 
-            fig, ax = plt.subplots(figsize=(5, 4))
-            sns.scatterplot(x='prev_PW', y='pred_yield', hue='label', data=pdat)
-            ax.set_xlim(0,5)
-            ax.set_xticks(np.arange(0, 5.5, 0.5))
-            ax.legend(title='', loc='best')
-            ax.set_ylim(0,5)
-            ax.set_yticks(np.arange(0, 5.5, 0.5))
-            plt.xlabel("Previous Year's Pruning Weights")
-            plt.ylabel('Predicted Yield (kg/m)')
-            plt.title("Previous Pruning Weights and Predicted Yield \n by Thinning and Rootstock")
-            # st.pyplot(fig)
-            fig.savefig("fig3.png")
-            image = Image.open('fig3.png')
-            st.image(image)
+        #     fig, ax = plt.subplots(figsize=(5, 4))
+        #     sns.scatterplot(x='prev_PW', y='pred_yield', hue='label', data=pdat)
+        #     ax.set_xlim(0,5)
+        #     ax.set_xticks(np.arange(0, 5.5, 0.5))
+        #     ax.legend(title='', loc='best')
+        #     ax.set_ylim(0,5)
+        #     ax.set_yticks(np.arange(0, 5.5, 0.5))
+        #     plt.xlabel("Previous Year's Pruning Weights")
+        #     plt.ylabel('Predicted Yield (kg/m)')
+        #     plt.title("Previous Pruning Weights and Predicted Yield \n by Thinning and Rootstock")
+        #     # st.pyplot(fig)
+        #     fig.savefig("fig3.png")
+        #     image = Image.open('fig3.png')
+        #     st.image(image)
 
-            fig, ax = plt.subplots(figsize=(5, 4))
-            sns.scatterplot(x='prev_N', y='pred_yield', hue='label', data=pdat)
-            ax.set_xlim(0,5)
-            ax.set_xticks(np.arange(0, 5.5, 0.5))
-            ax.legend(title='', loc='best')
-            ax.set_ylim(0,5)
-            ax.set_yticks(np.arange(0, 5.5, 0.5))
-            plt.xlabel("Previous Year's Nitrogen")
-            plt.ylabel('Predicted Yield (kg/m)')
-            plt.title("Previous Nitrogen and Predicted Yield \n by Thinning and Rootstock")
-            # st.pyplot(fig)
-            fig.savefig("fig4.png")
-            image = Image.open('fig4.png')
-            st.image(image)
+        #     fig, ax = plt.subplots(figsize=(5, 4))
+        #     sns.scatterplot(x='prev_N', y='pred_yield', hue='label', data=pdat)
+        #     ax.set_xlim(0,5)
+        #     ax.set_xticks(np.arange(0, 5.5, 0.5))
+        #     ax.legend(title='', loc='best')
+        #     ax.set_ylim(0,5)
+        #     ax.set_yticks(np.arange(0, 5.5, 0.5))
+        #     plt.xlabel("Previous Year's Nitrogen")
+        #     plt.ylabel('Predicted Yield (kg/m)')
+        #     plt.title("Previous Nitrogen and Predicted Yield \n by Thinning and Rootstock")
+        #     # st.pyplot(fig)
+        #     fig.savefig("fig4.png")
+        #     image = Image.open('fig4.png')
+        #     st.image(image)
 
-        else:
-            st.write("No previous results to display")
+        # else:
+        #     st.write("No previous results to display")
 
 
     #         # if 'prediction_yield' not in st.session_state:

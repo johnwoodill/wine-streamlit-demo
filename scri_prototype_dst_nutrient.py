@@ -7,11 +7,11 @@ import seaborn as sns
 from libs.libs import *
 from RFNutrModel import *
 
-from gkey import *
+# from gkey import *
 
 st.set_page_config(layout="wide")
 
-# G_API_KEY = st.secrets["G_API_KEY"]
+G_API_KEY = st.secrets["G_API_KEY"]
 
 def get_rootstock(rootstock):
     root_101_14=0

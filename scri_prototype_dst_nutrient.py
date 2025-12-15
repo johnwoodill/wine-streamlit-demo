@@ -189,6 +189,10 @@ def main():
         Cross-validation technique.
         \n
         \n Note: these results are strictly for Pinot Noir in the Willamette Valley
+        \n
+        \n
+        \n
+        Financial support was provided by the USDA-NIFA Specialty Crop Research Initiative award number 2020-51181-32159
                 
 
     ------------------------------------------------------------------------------

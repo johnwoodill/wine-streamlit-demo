@@ -128,6 +128,31 @@ dat = pd.read_csv("data/Louis_All_variables_ML_ready_V3.csv")
 
 # get_r2()
 
+temp_inc=1
+pr_inc=0
+def gen_climate_pred(temp_inc=0, pr_inc=0):
+
+    # rfm = RandomForestRegressor(n_estimators=10, max_depth=4, random_state=42)
+    rfm = RandomForestRegressor(n_estimators=20, max_depth=8, random_state=42)
+
+    cols = ['Vineyard', 'Treatment', 'Yield', 'Year', 'LeafN', 'LeafP', 'LeafK', 
+            'Y_Tavg', 'Y_Pr', 'PWMRow', 'Rootstock']
+
+    X, y = get_features_labels(dat, cols)
+
+    nutr_model = rfm.fit(X.values, y['Yield'].ravel())
+
+    X_test = X.copy()
+
+    X_test['Y_Tavg'] = X_test['Y_Tavg'] + temp_inc
+    X_test['Y_Pr'] = X_test['Y_Tavg'] + pr_inc
+
+    y_pred = nutr_model.predict(X_test)
+    return (y_pred.sum() - y.sum())/y.sum()*100
+
+
+gen_climate_pred(5, 0)
+
 
 
 # 'Unnamed: 0', 'Year', 'Company', 'Vineyard', 'Treatment', 'Rep',
@@ -160,22 +185,22 @@ dat = pd.read_csv("data/Louis_All_variables_ML_ready_V3.csv")
 # 'lon', 'lat'
 
 
-# gen_prediction( 
-#     LeafN=5, 
-#     LeafP=0.3, 
-#     LeafK=0.6, 
-#     Y_Tavg=18, 
-#     Y_Pr=0.1,
-#     lag1_LeafN=1.9,
-#     lag1_PWMRow=0.9,
-#     root_101_14=0,
-#     root_3309=0,
-#     root_44_53=0,
-#     root_OWNR=0,
-#     root_RIPG=0,
-#     root_SHWM=0,
-#     treat_1cls=0,
-#     treat_2cls=0,
-#     treat_NoThin=0)
+gen_prediction( 
+    LeafN=5, 
+    LeafP=0.3, 
+    LeafK=0.6, 
+    Y_Tavg=18+2, 
+    Y_Pr=0.1+10,
+    lag1_LeafN=1.9,
+    lag1_PWMRow=0.9,
+    root_101_14=0,
+    root_3309=0,
+    root_44_53=0,
+    root_OWNR=0,
+    root_RIPG=0,
+    root_SHWM=0,
+    treat_1cls=0,
+    treat_2cls=0,
+    treat_NoThin=0)
 
 

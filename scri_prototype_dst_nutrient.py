@@ -187,12 +187,6 @@ def main():
         in Oregon from 2013-2021. The model was able to capture 60% of
         variation in the data (R-squared = 60%) using a Leave-One-Out
         Cross-validation technique.
-        \n
-        \n Note: these results are strictly for Pinot Noir in the Willamette Valley
-        \n
-        \n
-        \n
-        Financial support was provided by the USDA-NIFA Specialty Crop Research Initiative award number 2020-51181-32159
                 
 
     ------------------------------------------------------------------------------
@@ -212,7 +206,7 @@ def main():
             5. Click "Predict Yield"
 
     ------------------------------------------------------------------------------
-
+    Financial support was provided by the USDA-NIFA Specialty Crop Research Initiative award number 2020-51181-32159.
         """
     )
 

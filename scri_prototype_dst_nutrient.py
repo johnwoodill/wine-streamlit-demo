@@ -8,6 +8,7 @@ from RFNutrModel import *
 
 st.set_page_config(layout="wide")
 
+G_API_KEY = st.secrets["G_API_KEY"]
 
 # -----------------------------
 # Utility functions

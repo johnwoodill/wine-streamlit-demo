@@ -187,9 +187,8 @@ def main():
         in Oregon from 2013-2021. The model was able to capture 60% of
         variation in the data (R-squared = 60%) using a Leave-One-Out
         Cross-validation technique.
-                
-        Financial support was provided by the USDA-NIFA Specialty Crop Research Initiative award number 2020-51181-32159.
 
+    ------------------------------------------------------------------------------
         Instructions: 
             1. Select wine-grape variety (only Pinot-Noir is available)
             2. Input zip code to download environmental data 
@@ -205,6 +204,9 @@ def main():
             
             5. Click "Predict Yield"
 
+    ------------------------------------------------------------------------------
+    
+    Financial support was provided by the USDA-NIFA Specialty Crop Research Initiative award number 2020-51181-32159.
     
         """
     )

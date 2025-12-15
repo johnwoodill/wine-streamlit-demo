@@ -190,7 +190,6 @@ def main():
                 
         Financial support was provided by the USDA-NIFA Specialty Crop Research Initiative award number 2020-51181-32159.
 
-    ------------------------------------------------------------------------------
         Instructions: 
             1. Select wine-grape variety (only Pinot-Noir is available)
             2. Input zip code to download environmental data 
@@ -206,7 +205,6 @@ def main():
             
             5. Click "Predict Yield"
 
-    ------------------------------------------------------------------------------
     
         """
     )
